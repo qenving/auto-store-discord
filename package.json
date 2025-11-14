@@ -1,35 +1,44 @@
 {
-  "dependencies": {
-    "colors": "^1.4.0",
-    "common-tags": "^1.8.2",
-    "discord.js": "^14.7.1",
-    "luxon": "^3.4.4",
-    "mongoose": "^8.0.1",
-    "nodemon": "^3.0.2",
-    "quick.db": "^9.1.7",
-    "request": "^2.88.2",
-    "systeminformation": "^5.21.22"
-  },
-  "name": "ticket-bot-discord.js",
-  "version": "1.0.0",
-  "main": "src/index.js",
+  "name": "auto-store-ecosystem",
+  "version": "2.0.0",
+  "description": "Auto-Store Ecosystem - Discord Bot + Website + Multi-Database + QRIS Payment",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon .",
+    "start": "node index.js",
+    "bot": "node bot/index.js",
+    "web": "cd web && npm run dev",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "commonjs",
   "keywords": [
-    "discord.js",
-    "ticket-bot",
-    "flamequard",
-    "ticketbot",
-    "ticket",
     "discord",
-    "discord-bot",
-    "youtube-tutorial",
-    "open-source"
+    "bot",
+    "auto-store",
+    "qris",
+    "payment",
+    "mysql",
+    "mongodb",
+    "nextjs"
   ],
-  "author": "FlameQuard",
+  "author": "Auto-Store Team",
   "license": "MIT",
-  "description": "An awesome discord ticket bot and its per server bot without database usage"
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "axios": "^1.6.2",
+    "mysql2": "^3.6.5",
+    "mongoose": "^8.0.3",
+    "uuid": "^9.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

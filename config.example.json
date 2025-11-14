@@ -1,0 +1,71 @@
+{
+  "mode": "IntegratedMode",
+  "database": {
+    "type": "mysql",
+    "mysql": {
+      "host": "localhost",
+      "port": 3306,
+      "user": "root",
+      "password": "",
+      "database": "autostore"
+    },
+    "mongodb": {
+      "uri": "mongodb://localhost:27017/autostore"
+    }
+  },
+  "discord": {
+    "token": "YOUR_BOT_TOKEN_HERE",
+    "clientId": "YOUR_CLIENT_ID",
+    "guildId": "YOUR_GUILD_ID",
+    "ownerId": "YOUR_DISCORD_ID",
+    "channels": {
+      "testimoni": "",
+      "orderLog": "",
+      "paymentLog": "",
+      "adminLog": ""
+    }
+  },
+  "website": {
+    "url": "http://localhost:3000",
+    "port": 3000,
+    "jwtSecret": "CHANGE_THIS_TO_RANDOM_SECRET",
+    "sessionSecret": "CHANGE_THIS_TO_RANDOM_SESSION_SECRET",
+    "adminSecretKey": "CHANGE_THIS_ADMIN_SECRET"
+  },
+  "oauth": {
+    "clientId": "YOUR_OAUTH_CLIENT_ID",
+    "clientSecret": "YOUR_OAUTH_CLIENT_SECRET",
+    "redirectUri": "http://localhost:3000/api/auth/callback"
+  },
+  "payment": {
+    "provider": "midtrans",
+    "autoExpireMinutes": 15,
+    "midtrans": {
+      "serverKey": "",
+      "clientKey": "",
+      "isProduction": false
+    },
+    "duitku": {
+      "merchantCode": "",
+      "apiKey": "",
+      "callbackUrl": ""
+    },
+    "tripay": {
+      "merchantCode": "",
+      "apiKey": "",
+      "privateKey": "",
+      "callbackUrl": ""
+    }
+  },
+  "features": {
+    "autoDelivery": true,
+    "autoExpireInvoice": true,
+    "testimoniIntegration": true,
+    "maintenance": false
+  },
+  "limits": {
+    "maxPendingOrders": 5,
+    "minDeposit": 10000,
+    "maxDeposit": 10000000
+  }
+}
