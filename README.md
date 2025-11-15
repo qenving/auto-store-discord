@@ -13,25 +13,29 @@
 - ✅ **Professional Logging**: File-based logging system
 - ✅ **Health Monitoring**: System health check & uptime tracking
 
-### 🤖 Discord Bot Features
-- Slash commands with cooldown system
-- Balance management (check/add/remove)
-- Shop browsing with categories
-- QRIS deposit system
-- Order tracking
-- Auto-delivery to DM
-- Admin commands
-- Event-driven architecture
+### 🤖 Discord Bot Features ✅ COMPLETE
+- ✅ Slash commands with cooldown system
+- ✅ Balance management (check/add/remove)
+- ✅ Shop browsing with categories
+- ✅ QRIS deposit system with auto-QR
+- ✅ Order history with filters
+- ✅ Auto-delivery to DM
+- ✅ Stock management (add/bulk/view/clear)
+- ✅ Product management (add/edit/delete/list)
+- ✅ Maintenance mode system
+- ✅ System statistics & analytics
+- ✅ Comprehensive help system
+- ✅ Event-driven architecture
 
-### 🌐 Website Features (Planned)
-- Next.js with Tailwind CSS
-- Admin dashboard with full analytics
-- User dashboard with Discord OAuth2
-- Product management
-- Stock management
-- Order tracking
-- Payment tracking
-- Real-time updates
+### 🌐 Website Features (Structure Ready)
+- ✅ Next.js 14 with App Router
+- ✅ Tailwind CSS configured
+- ✅ Basic structure & pages
+- 🔄 Admin dashboard (in development)
+- 🔄 User dashboard with Discord OAuth2 (in development)
+- 🔄 Product management UI (in development)
+- 🔄 API routes (in development)
+- 📝 Note: Use `DiscordBotOnly` mode for full functionality now
 
 ### 💳 Payment Features
 - QRIS payment support
@@ -221,22 +225,37 @@ Available modes:
 }
 ```
 
-## 🎮 Discord Bot Commands
+## 🎮 Discord Bot Commands (COMPLETE)
 
 ### User Commands
 - `/balance check` - Check your balance
-- `/shop` - Browse available products
-- `/deposit <amount>` - Deposit balance via QRIS
-- `/buy <product_id> <quantity>` - Purchase a product
-- `/orders` - View your order history
+- `/shop` - Browse available products with categories
+- `/buy <product_id> [quantity]` - Purchase products with auto-delivery
+- `/deposit <amount>` - Deposit balance via QRIS (with QR code)
+- `/orders [status] [limit]` - View order history with filters
+- `/help` - Show all available commands
+- `/status` - Check bot status, uptime, and stats
 
-### Admin Commands
+### Admin Commands - Product Management
+- `/product add` - Add new product with details
+- `/product edit` - Edit existing product
+- `/product delete` - Delete product
+- `/product list` - List all products with stock count
+
+### Admin Commands - Stock Management
+- `/stock add <product_id> <data>` - Add single stock item
+- `/stock bulk <product_id> <data>` - Bulk add stock (pipe-separated)
+- `/stock view <product_id>` - View product stock items
+- `/stock clear <product_id>` - Clear all available stock
+
+### Admin Commands - Balance
 - `/balance add <user> <amount>` - Add balance to user
 - `/balance remove <user> <amount>` - Remove balance from user
-- `/product add` - Add new product
-- `/product edit` - Edit product
-- `/stock add` - Add stock
-- `/stock bulk` - Bulk add stock from file
+
+### System Commands (Owner/Admin)
+- `/maintenance on/off/status` - Toggle maintenance mode
+- `/stats [period]` - View system statistics (today/week/month/all)
+  - Shows: users, orders, revenue, deposits, top products
 
 ## 🛠️ Architecture
 
