@@ -1,7 +1,29 @@
-# Dependencies
+# Dependencies - Node.js
 node_modules/
 package-lock.json
 yarn.lock
+
+# Dependencies - Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.installed.cfg
+*.egg
+*.egg-info/
+dist-python/
+build-python/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
 # Configuration
 config.json

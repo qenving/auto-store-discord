@@ -1,0 +1,64 @@
+[project]
+name = "auto-store-ecosystem"
+version = "3.0.0"
+description = "Professional Auto-Store Discord Bot with FastAPI & Python"
+authors = [
+    {name = "Auto-Store Team", email = "team@autostore.dev"}
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+keywords = ["discord", "bot", "auto-store", "fastapi", "python"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "discord.py>=2.3.2",
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "sqlalchemy>=2.0.25",
+    "pydantic>=2.5.3",
+    "loguru>=0.7.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.4",
+    "pytest-asyncio>=0.23.3",
+    "black>=23.12.1",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+]
+
+[project.scripts]
+autostore = "src.cli:app"
+autostore-bot = "src.bot.main:main"
+autostore-api = "src.api.main:main"
+autostore-gui = "src.gui.main:main"
+
+[tool.black]
+line-length = 100
+target-version = ['py311', 'py312']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
