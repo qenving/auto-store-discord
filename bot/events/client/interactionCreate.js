@@ -1,4 +1,5 @@
 const logger = require('../../../shared/logger/Logger');
+const configManager = require('../../../shared/config/ConfigManager');
 const { handleButton, handleSelectMenu } = require('../../handlers/componentHandler');
 
 module.exports = {
@@ -14,6 +15,19 @@ module.exports = {
       }
 
       try {
+        // Check maintenance mode
+        const config = configManager.getConfig();
+        const isMaintenance = config.features?.maintenance || false;
+        const isOwner = interaction.user.id === config.discord.ownerId;
+        const allowedCommands = ['help', 'status', 'maintenance'];
+
+        if (isMaintenance && !isOwner && !allowedCommands.includes(command.data.name)) {
+          return interaction.reply({
+            content: '🔧 **Maintenance Mode**\n\nThe bot is currently under maintenance. Please try again later.',
+            ephemeral: true
+          });
+        }
+
         // Check cooldown
         const { cooldowns } = client;
 
