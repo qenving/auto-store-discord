@@ -73,15 +73,19 @@ class Application {
       logger.info('🌐 Web GUI: http://localhost:3000');
       logger.info('📡 API Server: http://localhost:3001');
       logger.info('');
-      logger.info('Opening browser...');
 
-      // Auto-open browser
-      setTimeout(() => {
-        const open = require('open');
-        open('http://localhost:3000').catch(() => {
-          logger.info('Could not auto-open browser. Please open http://localhost:3000 manually');
-        });
-      }, 1500);
+      // Only auto-open browser if not running in Electron
+      if (!process.versions.electron) {
+        logger.info('Opening browser...');
+        setTimeout(() => {
+          const open = require('open');
+          open('http://localhost:3000').catch(() => {
+            logger.info('Could not auto-open browser. Please open http://localhost:3000 manually');
+          });
+        }, 1500);
+      } else {
+        logger.info('Running in Electron - GUI loaded in app window');
+      }
 
       this.setupGracefulShutdown();
 

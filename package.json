@@ -2,13 +2,41 @@
   "name": "auto-store-ecosystem",
   "version": "2.0.0",
   "description": "Auto-Store Ecosystem - Discord Bot + Website + Multi-Database + QRIS Payment",
-  "main": "index.js",
+  "main": "electron-main.js",
   "scripts": {
-    "start": "node index.js",
-    "bot": "node bot/index.js",
-    "web": "cd web && npm run dev",
+    "start": "electron .",
+    "bot-only": "node index.js",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.autostore.manager",
+    "productName": "Auto-Store Manager",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!desktop",
+      "!web/node_modules",
+      "!web/.next"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "gui/assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "gui/assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "gui/assets/icon.png"
+    }
   },
   "keywords": [
     "discord",
@@ -33,10 +61,13 @@
     "cors": "^2.8.5",
     "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^2.4.3",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "open": "^8.4.0",
+    "electron": "^28.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "electron-builder": "^24.9.1"
   },
   "engines": {
     "node": ">=18.0.0"
