@@ -2,12 +2,23 @@
   "_PETUNJUK": "File ini adalah SATU-SATUNYA file konfigurasi yang perlu Anda edit!",
   "_CARA_PAKAI": "1. Copy file ini jadi config.json, 2. Edit config.json sesuai kebutuhan",
 
-  "_comment_mode": "=== MODE OPERASI ===",
-  "_pilihan_mode": "Pilih: DiscordBotOnly (hanya bot), WebOnly (hanya web), atau IntegratedMode (bot+web)",
+  "_comment_mode": "╔════════════════════════════════════════╗",
+  "_comment_mode_2": "║     MODE OPERASI (PILIH SALAH SATU)    ║",
+  "_comment_mode_3": "╚════════════════════════════════════════╝",
+  "_PILIHAN_MODE": {
+    "DiscordBotOnly": "✅ RECOMMENDED - Hanya jalankan bot Discord (paling mudah)",
+    "WebOnly": "Hanya jalankan website (tanpa bot)",
+    "IntegratedMode": "Bot + Website terintegrasi penuh (fitur lengkap)"
+  },
   "mode": "DiscordBotOnly",
 
-  "_comment_database": "=== KONFIGURASI DATABASE ===",
-  "_pilihan_db": "Pilih type: mysql atau mongodb (pilih salah satu saja)",
+  "_comment_database": "╔════════════════════════════════════════╗",
+  "_comment_database_2": "║   DATABASE (PILIH SALAH SATU)          ║",
+  "_comment_database_3": "╚════════════════════════════════════════╝",
+  "_PILIHAN_DATABASE": {
+    "mysql": "✅ RECOMMENDED - MySQL/MariaDB (lebih familiar, banyak tutorial)",
+    "mongodb": "MongoDB (NoSQL, lebih flexible untuk data besar)"
+  },
   "database": {
     "type": "mysql",
 
@@ -26,15 +37,17 @@
     }
   },
 
-  "_comment_discord": "=== KONFIGURASI DISCORD BOT (WAJIB!) ===",
-  "_cara_dapat_token": "Lihat CARA_SETUP.md bagian 'LANGKAH 3' untuk mendapatkan semua ini",
+  "_comment_discord": "╔════════════════════════════════════════╗",
+  "_comment_discord_2": "║    DISCORD BOT (WAJIB DIISI!)          ║",
+  "_comment_discord_3": "╚════════════════════════════════════════╝",
+  "_cara_dapat": "Lihat file CARA_SETUP.md untuk panduan lengkap mendapatkan token & ID",
   "discord": {
     "token": "PASTE_BOT_TOKEN_DISCORD_ANDA_DISINI",
     "clientId": "PASTE_APPLICATION_ID_DISINI",
     "guildId": "PASTE_SERVER_ID_DISINI",
     "ownerId": "PASTE_DISCORD_USER_ID_ANDA_DISINI",
 
-    "_optional_channels": "Opsional - ID channel untuk log (biarkan kosong jika tidak perlu)",
+    "_optional_channels": "⚙️ OPSIONAL - ID channel untuk notifikasi (kosongkan jika tidak perlu)",
     "channels": {
       "testimoni": "",
       "orderLog": "",
@@ -43,8 +56,10 @@
     }
   },
 
-  "_comment_website": "=== KONFIGURASI WEBSITE (Hanya jika mode WebOnly atau IntegratedMode) ===",
-  "_skip_jika_bot_only": "SKIP bagian ini jika Anda pilih mode DiscordBotOnly",
+  "_comment_website": "╔════════════════════════════════════════╗",
+  "_comment_website_2": "║  WEBSITE (Hanya untuk mode Web/Integrated) ║",
+  "_comment_website_3": "╚════════════════════════════════════════╝",
+  "_skip_jika_bot_only": "⚠️ SKIP bagian ini jika mode = DiscordBotOnly",
   "website": {
     "url": "http://localhost:3000",
     "port": 3000,
@@ -53,34 +68,44 @@
     "adminSecretKey": "PASSWORD_UNTUK_LOGIN_ADMIN_DASHBOARD"
   },
 
-  "_comment_oauth": "=== DISCORD OAUTH2 (Hanya untuk login website) ===",
+  "_comment_oauth": "╔════════════════════════════════════════╗",
+  "_comment_oauth_2": "║  DISCORD OAUTH2 (Untuk login website)  ║",
+  "_comment_oauth_3": "╚════════════════════════════════════════╝",
+  "_skip_oauth": "⚠️ SKIP bagian ini jika mode = DiscordBotOnly",
   "oauth": {
     "clientId": "SAMA_DENGAN_discord.clientId_DIATAS",
     "clientSecret": "PASTE_CLIENT_SECRET_DARI_DISCORD_DEVELOPER_PORTAL",
     "redirectUri": "http://localhost:3000/api/auth/callback"
   },
 
-  "_comment_payment": "=== KONFIGURASI PAYMENT GATEWAY ===",
-  "_pilihan_provider": "Pilih provider: midtrans, duitku, atau tripay (pilih salah satu)",
+  "_comment_payment": "╔════════════════════════════════════════╗",
+  "_comment_payment_2": "║   PAYMENT GATEWAY (PILIH SALAH SATU)   ║",
+  "_comment_payment_3": "╚════════════════════════════════════════╝",
+  "_PILIHAN_PAYMENT": {
+    "midtrans": "✅ RECOMMENDED - Midtrans (paling mudah, support sandbox/testing)",
+    "duitku": "Duitku (alternatif, fee lebih murah)",
+    "tripay": "Tripay (banyak metode pembayaran)"
+  },
   "payment": {
     "provider": "midtrans",
     "autoExpireMinutes": 15,
 
-    "_keterangan_midtrans": "ISI INI JIKA PAKAI MIDTRANS - Daftar di midtrans.com",
+    "_keterangan_midtrans": "━━━ MIDTRANS ━━━ Daftar di: https://midtrans.com",
     "midtrans": {
       "serverKey": "PASTE_MIDTRANS_SERVER_KEY",
       "clientKey": "PASTE_MIDTRANS_CLIENT_KEY",
+      "_pilihan_production": "false = testing/sandbox, true = production/live",
       "isProduction": false
     },
 
-    "_keterangan_duitku": "ISI INI JIKA PAKAI DUITKU - Daftar di duitku.com",
+    "_keterangan_duitku": "━━━ DUITKU ━━━ Daftar di: https://duitku.com",
     "duitku": {
       "merchantCode": "PASTE_DUITKU_MERCHANT_CODE",
       "apiKey": "PASTE_DUITKU_API_KEY",
       "callbackUrl": "https://domain-anda.com/api/payment/callback"
     },
 
-    "_keterangan_tripay": "ISI INI JIKA PAKAI TRIPAY - Daftar di tripay.co.id",
+    "_keterangan_tripay": "━━━ TRIPAY ━━━ Daftar di: https://tripay.co.id",
     "tripay": {
       "merchantCode": "PASTE_TRIPAY_MERCHANT_CODE",
       "apiKey": "PASTE_TRIPAY_API_KEY",
@@ -89,20 +114,49 @@
     }
   },
 
-  "_comment_features": "=== FITUR-FITUR SISTEM ===",
-  "_penjelasan_features": "true = aktif, false = nonaktif",
+  "_comment_features": "╔════════════════════════════════════════╗",
+  "_comment_features_2": "║      FITUR-FITUR SISTEM                ║",
+  "_comment_features_3": "╚════════════════════════════════════════╝",
+  "_penjelasan_features": "Pilih true (aktif) atau false (nonaktif) untuk setiap fitur",
   "features": {
+    "_autoDelivery_info": "Otomatis kirim produk via DM setelah pembelian",
     "autoDelivery": true,
+
+    "_autoExpireInvoice_info": "Otomatis cancel invoice yang tidak dibayar",
     "autoExpireInvoice": true,
+
+    "_testimoniIntegration_info": "Integrasi testimoni bot <-> web (untuk IntegratedMode)",
     "testimoniIntegration": false,
+
+    "_maintenance_info": "Mode maintenance - user tidak bisa pakai bot",
     "maintenance": false
   },
 
-  "_comment_limits": "=== BATAS-BATAS TRANSAKSI ===",
-  "_satuan_rupiah": "Semua nilai dalam Rupiah",
+  "_comment_limits": "╔════════════════════════════════════════╗",
+  "_comment_limits_2": "║    BATAS-BATAS TRANSAKSI               ║",
+  "_comment_limits_3": "╚════════════════════════════════════════╝",
+  "_satuan_rupiah": "💰 Semua nilai dalam Rupiah (IDR)",
   "limits": {
+    "_maxPendingOrders_info": "Maksimal pending order per user (anti spam)",
     "maxPendingOrders": 5,
+
+    "_minDeposit_info": "Minimal deposit (contoh: 10000 = Rp 10.000)",
     "minDeposit": 10000,
+
+    "_maxDeposit_info": "Maksimal deposit (contoh: 10000000 = Rp 10.000.000)",
     "maxDeposit": 10000000
+  },
+
+  "_SUMMARY": "╔════════════════════════════════════════╗",
+  "_SUMMARY_2": "║           RINGKASAN SETUP              ║",
+  "_SUMMARY_3": "╚════════════════════════════════════════╝",
+  "_LANGKAH_SETUP": {
+    "1": "Copy file ini → config.json",
+    "2": "Pilih mode (DiscordBotOnly recommended)",
+    "3": "Pilih database (mysql recommended)",
+    "4": "Isi Discord bot token & IDs",
+    "5": "Pilih payment provider (midtrans recommended)",
+    "6": "Isi payment API keys",
+    "7": "Selesai! Jalankan: npm run bot"
   }
 }
