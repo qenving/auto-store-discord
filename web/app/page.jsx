@@ -7,17 +7,17 @@ export default function Home() {
 
         <div className="space-x-4">
           <a
-            href="/dashboard/admin"
+            href="/admin"
             className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
           >
             Admin Dashboard
           </a>
 
           <a
-            href="/auth/login"
+            href="/admin/settings"
             className="inline-block bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition"
           >
-            User Login
+            ⚙️ Settings
           </a>
         </div>
 
