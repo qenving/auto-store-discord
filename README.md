@@ -14,28 +14,63 @@
 - ✅ **Health Monitoring**: System health check & uptime tracking
 
 ### 🤖 Discord Bot Features ✅ COMPLETE
-- ✅ Slash commands with cooldown system
-- ✅ Balance management (check/add/remove)
-- ✅ Shop browsing with categories
-- ✅ QRIS deposit system with auto-QR
-- ✅ Order history with filters
-- ✅ Auto-delivery to DM
-- ✅ Stock management (add/bulk/view/clear)
-- ✅ Product management (add/edit/delete/list)
-- ✅ Maintenance mode system
-- ✅ System statistics & analytics
-- ✅ Comprehensive help system
+**User Commands:**
+- ✅ `/balance` - Check balance
+- ✅ `/deposit` - QRIS deposit with auto-QR generation
+- ✅ `/products` - Browse available products
+- ✅ `/buy` - Purchase products
+- ✅ `/orders` - View order history with filters
+- ✅ `/help` - Get help and command list
+- ✅ `/status` - Check bot status
+- ✅ Auto-delivery via DM after purchase
+- ✅ Cooldown system to prevent spam
 - ✅ Event-driven architecture
 
-### 🌐 Website Features (Structure Ready)
+**Admin Management:**
+- 🖥️ Managed via **Desktop App** (Windows) or **Web Dashboard** (Ubuntu/Server)
+- ❌ NO Discord admin commands - all admin tasks through GUI
+- ✅ Product management (CRUD)
+- ✅ Stock management (add, bulk, clear)
+- ✅ Order viewing and filtering
+- ✅ User management
+- ✅ Configuration editor
+- ✅ Real-time statistics
+
+### 🖥️ Desktop App (Windows) ✅ COMPLETE
+- ✅ **Electron-based** Windows desktop application
+- ✅ **7 Management Pages**:
+  - Dashboard (stats, recent orders, quick actions)
+  - Settings (full config editor with test connections)
+  - Products (CRUD operations)
+  - Stock (per-product management with bulk upload)
+  - Orders (view & filter)
+  - Users (view & edit balances)
+  - Logs (real-time bot logs viewer)
+- ✅ **Bot Control**: Start/stop bot from GUI
+- ✅ **Config Management**: Export/import, test connections
+- ✅ **Modern UI**: Professional design with animations
+- ✅ **Real-time Updates**: Live status indicators
+- 📦 **Build Support**: Windows (NSIS), Mac (DMG), Linux (AppImage)
+
+### 🌐 Web Dashboard (Ubuntu/Server) ✅ COMPLETE
 - ✅ Next.js 14 with App Router
+- ✅ Admin settings page with full config editor
 - ✅ Tailwind CSS configured
-- ✅ Basic structure & pages
-- 🔄 Admin dashboard (in development)
-- 🔄 User dashboard with Discord OAuth2 (in development)
-- 🔄 Product management UI (in development)
-- 🔄 API routes (in development)
-- 📝 Note: Use `DiscordBotOnly` mode for full functionality now
+- ✅ API routes for config management
+- ✅ Test database & payment connections
+- ✅ Export/import config files
+- 🔄 Full dashboard UI (structure ready)
+- 📝 Recommended for server deployments
+
+### 🔌 REST API Server ✅ COMPLETE
+- ✅ Express-based API server (port 3001)
+- ✅ Auto-starts with bot
+- ✅ Complete CRUD endpoints for all resources
+- ✅ Config management (get, update, test, export, import)
+- ✅ Database connection testing
+- ✅ Payment gateway testing
+- ✅ Dashboard statistics & analytics
+- ✅ CORS enabled for local access
 
 ### 💳 Payment Features
 - QRIS payment support
@@ -81,27 +116,89 @@ auto-store-discord/
 - Discord Bot Token
 - Payment Provider Account (Midtrans/Duitku/Tripay)
 
-### Installation
+### For Windows Users (Desktop App) 🖥️
 
-1. **Clone the repository**
+1. **Install the project**
 ```bash
 git clone <repository-url>
 cd auto-store-discord
-```
-
-2. **Install dependencies**
-```bash
 npm install
 ```
 
-3. **Configure the system**
+2. **Install Desktop App dependencies**
 ```bash
-# Copy example files
-cp config.example.json config.json
-cp .env.example .env
-
-# Edit config.json and .env with your settings
+cd desktop
+npm install
+cd ..
 ```
+
+3. **Start the Desktop App**
+```bash
+cd desktop
+npm start
+```
+
+4. **Configure via Desktop App**
+- Click "Settings" in the sidebar
+- Fill in your Discord bot token, database credentials, payment API keys
+- Test connections using the "Test Connection" buttons
+- Click "Save Configuration"
+
+5. **Start the Bot**
+- Click "Start Bot" button in the sidebar
+- Monitor logs in the "Logs" page
+
+6. **Manage your store**
+- Use "Products" page to add products
+- Use "Stock" page to add stock items
+- Use "Orders" page to view purchases
+- Use "Dashboard" for statistics
+
+### For Ubuntu/Server (Web Dashboard) 🌐
+
+1. **Install the project**
+```bash
+git clone <repository-url>
+cd auto-store-discord
+npm install
+```
+
+2. **Configure the system**
+```bash
+# Copy example config
+cp config.example.json config.json
+
+# Edit config.json manually OR use web dashboard
+```
+
+3. **Start the bot** (API server auto-starts)
+```bash
+npm start
+```
+
+4. **Access Web Dashboard**
+```
+Open browser: http://localhost:3000/admin/settings
+```
+
+5. **Configure via Web Dashboard**
+- Edit all settings in the web interface
+- Test database and payment connections
+- Export/import config files
+- Save and restart bot
+
+### Manual Configuration (Advanced)
+
+If you prefer manual configuration:
+
+1. **Copy example files**
+```bash
+cp config.example.json config.json
+```
+
+2. **Edit config.json**
+- See KONFIGURASI.md for detailed explanations
+- All options are documented with examples
 
 4. **Setup database**
 
