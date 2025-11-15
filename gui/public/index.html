@@ -357,6 +357,59 @@
       color: #aaa;
       line-height: 1.6;
     }
+
+    /* Console/Logs */
+    .console-container {
+      background: #000;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+      height: 600px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .log-entry {
+      margin-bottom: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-entry.info {
+      color: #60a5fa;
+    }
+
+    .log-entry.error {
+      color: #f87171;
+    }
+
+    .log-entry.warn {
+      color: #fbbf24;
+    }
+
+    .log-entry.success {
+      color: #34d399;
+    }
+
+    .log-timestamp {
+      color: #666;
+      margin-right: 8px;
+    }
+
+    .console-controls {
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .console-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -379,6 +432,7 @@
     <div class="tabs">
       <button class="tab active" onclick="showTab('dashboard')">Dashboard</button>
       <button class="tab" onclick="showTab('settings')">Settings</button>
+      <button class="tab" onclick="showTab('logs')">Console</button>
       <button class="tab" onclick="showTab('about')">About</button>
     </div>
 
@@ -550,6 +604,22 @@
             </div>
           </div>
         </form>
+      </div>
+
+      <!-- Console/Logs Tab -->
+      <div id="tab-logs" class="tab-content">
+        <div class="card">
+          <div class="console-controls">
+            <div class="console-title">📝 Console Logs</div>
+            <button class="btn btn-danger" style="padding: 8px 16px; font-size: 13px;" onclick="clearConsole()">Clear Logs</button>
+          </div>
+          <div class="console-container" id="console-container">
+            <div class="log-entry info">
+              <span class="log-timestamp">[00:00:00]</span>
+              <span>Console initialized. Waiting for logs...</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- About Tab -->
@@ -769,6 +839,66 @@
       const alertDiv = document.getElementById(container);
       alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
       setTimeout(() => { alertDiv.innerHTML = ''; }, 8000);
+    }
+
+    // Console/Logs functions
+    function formatTimestamp() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      return `[${hours}:${minutes}:${seconds}]`;
+    }
+
+    function appendLog(message, type = 'info') {
+      const consoleContainer = document.getElementById('console-container');
+      const logEntry = document.createElement('div');
+      logEntry.className = `log-entry ${type}`;
+
+      const timestamp = document.createElement('span');
+      timestamp.className = 'log-timestamp';
+      timestamp.textContent = formatTimestamp();
+
+      const content = document.createElement('span');
+      content.textContent = message;
+
+      logEntry.appendChild(timestamp);
+      logEntry.appendChild(content);
+      consoleContainer.appendChild(logEntry);
+
+      // Auto-scroll to bottom
+      consoleContainer.scrollTop = consoleContainer.scrollHeight;
+    }
+
+    function clearConsole() {
+      const consoleContainer = document.getElementById('console-container');
+      consoleContainer.innerHTML = '';
+      appendLog('Console cleared.', 'info');
+    }
+
+    function detectLogType(message) {
+      const lowerMsg = message.toLowerCase();
+      if (lowerMsg.includes('error') || lowerMsg.includes('failed')) return 'error';
+      if (lowerMsg.includes('warn') || lowerMsg.includes('warning')) return 'warn';
+      if (lowerMsg.includes('success') || lowerMsg.includes('started') || lowerMsg.includes('ready')) return 'success';
+      return 'info';
+    }
+
+    // Listen to backend logs (Electron IPC)
+    if (window.electron && window.electron.onBackendLog) {
+      window.electron.onBackendLog((log) => {
+        const type = log.type === 'error' ? 'error' : detectLogType(log.message);
+        const lines = log.message.trim().split('\n');
+        lines.forEach(line => {
+          if (line.trim()) {
+            appendLog(line.trim(), type);
+          }
+        });
+      });
+      appendLog('✅ Connected to backend logs stream.', 'success');
+    } else {
+      // Fallback: Poll server logs via HTTP if not in Electron
+      appendLog('ℹ️ Running in browser mode. Real-time logs not available.', 'warn');
     }
 
     // Initialize
