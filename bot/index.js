@@ -2,6 +2,7 @@ const ExtendedClient = require('./core/Client');
 const configManager = require('../shared/config/ConfigManager');
 const databaseProvider = require('../shared/database/provider/DatabaseProvider');
 const paymentManager = require('../shared/payment/PaymentManager');
+const ApiServer = require('../shared/api/ApiServer');
 const logger = require('../shared/logger/Logger');
 const { loadCommands, registerCommands } = require('./handlers/commandHandler');
 const { loadEvents } = require('./handlers/eventHandler');
@@ -12,6 +13,7 @@ const { loadEvents } = require('./handlers/eventHandler');
 class BotApplication {
   constructor() {
     this.client = null;
+    this.apiServer = null;
     this.isRunning = false;
   }
 
@@ -50,6 +52,21 @@ class BotApplication {
       // Initialize payment
       logger.info('Initializing payment service...');
       paymentManager.initialize();
+
+      // Initialize API server for Desktop App & Web Dashboard
+      logger.info('Starting API server...');
+      this.apiServer = new ApiServer(3001);
+
+      // Inject repositories into API server
+      this.apiServer.setRepositories({
+        userRepo: databaseProvider.getUserRepository(),
+        productRepo: databaseProvider.getProductRepository(),
+        stockRepo: databaseProvider.getStockRepository(),
+        orderRepo: databaseProvider.getOrderRepository(),
+        paymentRepo: databaseProvider.getPaymentRepository()
+      });
+
+      await this.apiServer.start();
 
       // Create Discord client
       logger.info('Creating Discord client...');
@@ -103,6 +120,10 @@ class BotApplication {
     try {
       if (this.client) {
         this.client.destroy();
+      }
+
+      if (this.apiServer) {
+        await this.apiServer.stop();
       }
 
       await databaseProvider.disconnect();

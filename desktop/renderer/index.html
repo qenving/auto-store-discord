@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Store Manager</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>🤖 Auto-Store</h1>
+        <p class="version">v1.0.0</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard">
+          <span class="icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="settings">
+          <span class="icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="products">
+          <span class="icon">📦</span>
+          <span>Products</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="stock">
+          <span class="icon">📋</span>
+          <span>Stock</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="orders">
+          <span class="icon">🛒</span>
+          <span>Orders</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="users">
+          <span class="icon">👥</span>
+          <span>Users</span>
+        </a>
+
+        <a href="#" class="nav-item" data-page="logs">
+          <span class="icon">📝</span>
+          <span>Logs</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="bot-status">
+          <div class="status-indicator" id="bot-status-indicator"></div>
+          <span id="bot-status-text">Bot Offline</span>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btn-toggle-bot">
+          <span id="btn-bot-text">Start Bot</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="content-container">
+        <!-- Pages will be loaded here -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="scripts/api.js"></script>
+  <script src="scripts/bot-control.js"></script>
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/pages/dashboard.js"></script>
+  <script src="scripts/pages/settings.js"></script>
+  <script src="scripts/pages/products.js"></script>
+  <script src="scripts/pages/stock.js"></script>
+  <script src="scripts/pages/orders.js"></script>
+  <script src="scripts/pages/users.js"></script>
+  <script src="scripts/pages/logs.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
