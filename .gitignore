@@ -9,6 +9,10 @@ config.json
 .env.local
 .env.production
 
+# Legacy configs (deprecated - do not use)
+legacy/**/*.json
+!legacy/README-LEGACY.md
+
 # Logs
 logs/
 *.log

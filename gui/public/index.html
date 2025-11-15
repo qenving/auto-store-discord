@@ -485,6 +485,39 @@
         <div id="settings-alert"></div>
 
         <form id="settings-form" onsubmit="saveSettings(event)">
+          <!-- Mode Selection -->
+          <div class="card">
+            <div class="card-title">⚙️ Mode Operasi</div>
+
+            <div class="form-section">
+              <div class="form-section-title">🎯 Pilih Mode Aplikasi</div>
+
+              <div class="form-group">
+                <label class="form-label">Mode *</label>
+                <select class="form-select" id="mode-select" onchange="toggleModeHelp()">
+                  <option value="DiscordBotOnly">Discord Bot Only (Recommended)</option>
+                  <option value="WebOnly">Website Only</option>
+                  <option value="IntegratedMode">Integrated Mode (Bot + Website)</option>
+                </select>
+                <div class="form-hint" id="mode-hint">Hanya jalankan Discord bot - paling mudah untuk pemula</div>
+              </div>
+
+              <div class="info-box" id="mode-info-box">
+                <div class="info-box-title">ℹ️ Discord Bot Only</div>
+                <div class="info-box-text">
+                  <strong>Kelebihan:</strong><br>
+                  • Paling mudah di-setup (hanya perlu Discord token & database)<br>
+                  • Resource minimal (memory & CPU rendah)<br>
+                  • Cocok untuk pemula<br><br>
+                  <strong>Yang Dibutuhkan:</strong><br>
+                  • Discord bot token<br>
+                  • Database (MySQL atau MongoDB)<br>
+                  • Payment provider (opsional)
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Discord Section -->
           <div class="card">
             <div class="card-title">Discord Bot Configuration</div>
@@ -657,6 +690,60 @@
       document.getElementById('tab-' + tabName).classList.add('active');
     }
 
+    // Toggle mode help text and info box
+    function toggleModeHelp() {
+      const mode = document.getElementById('mode-select').value;
+      const hint = document.getElementById('mode-hint');
+      const infoBox = document.getElementById('mode-info-box');
+      const infoTitle = infoBox.querySelector('.info-box-title');
+      const infoText = infoBox.querySelector('.info-box-text');
+
+      if (mode === 'DiscordBotOnly') {
+        hint.textContent = 'Hanya jalankan Discord bot - paling mudah untuk pemula';
+        infoTitle.textContent = 'ℹ️ Discord Bot Only';
+        infoText.innerHTML = `
+          <strong>Kelebihan:</strong><br>
+          • Paling mudah di-setup (hanya perlu Discord token & database)<br>
+          • Resource minimal (memory & CPU rendah)<br>
+          • Cocok untuk pemula<br><br>
+          <strong>Yang Dibutuhkan:</strong><br>
+          • Discord bot token<br>
+          • Database (MySQL atau MongoDB)<br>
+          • Payment provider (opsional)
+        `;
+      } else if (mode === 'WebOnly') {
+        hint.textContent = 'Hanya jalankan website dashboard - tanpa Discord bot';
+        infoTitle.textContent = 'ℹ️ Website Only';
+        infoText.innerHTML = `
+          <strong>Kelebihan:</strong><br>
+          • Akses admin via web browser<br>
+          • Manage produk & orders via GUI<br>
+          • Tidak perlu Discord bot<br><br>
+          <strong>Yang Dibutuhkan:</strong><br>
+          • Database (MySQL atau MongoDB)<br>
+          • Website config (JWT secret, admin password)<br>
+          • Payment provider (opsional)
+        `;
+      } else if (mode === 'IntegratedMode') {
+        hint.textContent = 'Jalankan Discord bot + Website dashboard secara bersamaan';
+        infoTitle.textContent = 'ℹ️ Integrated Mode (Bot + Website)';
+        infoText.innerHTML = `
+          <strong>Kelebihan:</strong><br>
+          • Fitur lengkap (Discord bot + Web dashboard)<br>
+          • Sinkronisasi data real-time<br>
+          • Manage via Discord atau Web<br><br>
+          <strong>Yang Dibutuhkan:</strong><br>
+          • Discord bot token<br>
+          • Database (MySQL atau MongoDB)<br>
+          • Website config (JWT secret, admin password)<br>
+          • OAuth config (untuk login Discord di website)<br>
+          • Payment provider (opsional)<br><br>
+          <strong>⚠️ Perhatian:</strong><br>
+          Mode ini membutuhkan resource lebih banyak dan setup lebih kompleks
+        `;
+      }
+    }
+
     // Toggle database config visibility
     function toggleDatabaseConfig() {
       const dbType = document.getElementById('db-type').value;
@@ -757,6 +844,10 @@
         const res = await fetch('http://localhost:3001/api/config');
         const config = await res.json();
 
+        // Fill mode
+        document.getElementById('mode-select').value = config.mode || 'DiscordBotOnly';
+        toggleModeHelp();
+
         // Fill form
         document.querySelector('[name="discord.token"]').value = config.discord?.token || '';
         document.querySelector('[name="discord.clientId"]').value = config.discord?.clientId || '';
@@ -789,8 +880,10 @@
       const form = event.target;
       const formData = new FormData(form);
       const dbType = document.getElementById('db-type').value;
+      const mode = document.getElementById('mode-select').value;
 
       const config = {
+        mode: mode,
         discord: {},
         database: { type: dbType }
       };
@@ -809,8 +902,7 @@
         }
       });
 
-      // Set defaults
-      config.mode = 'DiscordBotOnly';
+      // Set other defaults
       config.payment = { provider: 'midtrans' };
       config.features = { autoDelivery: true, autoExpireInvoice: true, maintenance: false };
       config.limits = { maxPendingOrders: 5, minDeposit: 10000, maxDeposit: 10000000 };

@@ -1,255 +1,125 @@
-# 🚀 AUTO-STORE ECOSYSTEM v2.0
+# 🤖 Auto-Store Ecosystem
 
-> **Full-Stack Auto-Store System** - Discord Bot + Website + Multi-Database + QRIS Payment Integration
+**Auto-Store Ecosystem** adalah sistem manajemen toko otomatis Discord dengan fitur lengkap untuk mengelola produk digital, order, pembayaran, dan stock management. Dirancang untuk **mudah digunakan** bahkan untuk pemula.
 
-## ✨ Features
+---
 
-### 🎯 Core Features
-- ✅ **3 Operation Modes**: DiscordBotOnly, WebOnly, IntegratedMode
-- ✅ **Multi-Database Support**: MySQL & MongoDB with Adapter Pattern
-- ✅ **QRIS Payment**: Midtrans, Duitku, Tripay integration
-- ✅ **Auto-Delivery System**: Automatic product delivery via DM
-- ✅ **Auto-Cancel Invoice**: Expired payments automatically cancelled
-- ✅ **Professional Logging**: File-based logging system
-- ✅ **Health Monitoring**: System health check & uptime tracking
+## ✨ Fitur Utama
 
-### 🤖 Discord Bot Features ✅ COMPLETE
-**User Commands:**
-- ✅ `/balance` - Check balance
-- ✅ `/deposit` - QRIS deposit with auto-QR generation
-- ✅ `/products` - Browse available products
-- ✅ `/buy` - Purchase products
-- ✅ `/orders` - View order history with filters
-- ✅ `/help` - Get help and command list
-- ✅ `/status` - Check bot status
-- ✅ Auto-delivery via DM after purchase
-- ✅ Cooldown system to prevent spam
-- ✅ Event-driven architecture
+- 🤖 **Discord Bot** - Sistem toko otomatis dengan slash commands modern
+- 🌐 **Web Dashboard** - Interface admin untuk manage produk & orders
+- 🖥️ **Desktop App** - Aplikasi desktop (Electron) dengan GUI modern
+- 💳 **Multi Payment** - Support Midtrans, Duitku, Tripay, dan manual
+- 🗄️ **Multi Database** - Support MySQL & MongoDB
+- 📦 **Auto Delivery** - Kirim produk otomatis via DM setelah pembayaran
+- 📊 **Real-time Logs** - Monitor bot activity via Console tab
+- ⚙️ **Easy Config** - Satu file konfigurasi untuk semua mode
 
-**Admin Management:**
-- 🖥️ Managed via **Desktop App** (Windows) or **Web Dashboard** (Ubuntu/Server)
-- ❌ NO Discord admin commands - all admin tasks through GUI
-- ✅ Product management (CRUD)
-- ✅ Stock management (add, bulk, clear)
-- ✅ Order viewing and filtering
-- ✅ User management
-- ✅ Configuration editor
-- ✅ Real-time statistics
+---
 
-### 🖥️ Desktop App (Windows) ✅ COMPLETE
-- ✅ **Electron-based** Windows desktop application
-- ✅ **7 Management Pages**:
-  - Dashboard (stats, recent orders, quick actions)
-  - Settings (full config editor with test connections)
-  - Products (CRUD operations)
-  - Stock (per-product management with bulk upload)
-  - Orders (view & filter)
-  - Users (view & edit balances)
-  - Logs (real-time bot logs viewer)
-- ✅ **Bot Control**: Start/stop bot from GUI
-- ✅ **Config Management**: Export/import, test connections
-- ✅ **Modern UI**: Professional design with animations
-- ✅ **Real-time Updates**: Live status indicators
-- 📦 **Build Support**: Windows (NSIS), Mac (DMG), Linux (AppImage)
+## 🎯 Mode Operasi
 
-### 🌐 Web Dashboard (Ubuntu/Server) ✅ COMPLETE
-- ✅ Next.js 14 with App Router
-- ✅ Admin settings page with full config editor
-- ✅ Tailwind CSS configured
-- ✅ API routes for config management
-- ✅ Test database & payment connections
-- ✅ Export/import config files
-- 🔄 Full dashboard UI (structure ready)
-- 📝 Recommended for server deployments
+Project ini mendukung **3 mode operasi**:
 
-### 🔌 REST API Server ✅ COMPLETE
-- ✅ Express-based API server (port 3001)
-- ✅ Auto-starts with bot
-- ✅ Complete CRUD endpoints for all resources
-- ✅ Config management (get, update, test, export, import)
-- ✅ Database connection testing
-- ✅ Payment gateway testing
-- ✅ Dashboard statistics & analytics
-- ✅ CORS enabled for local access
+| Mode | Deskripsi | Cocok Untuk |
+|------|-----------|-------------|
+| **DiscordBotOnly** ✅ | Hanya jalankan bot Discord | Pemula, resource minimal |
+| **WebOnly** | Hanya jalankan web dashboard | Admin panel only |
+| **IntegratedMode** | Bot + Web + sinkronisasi penuh | Fitur lengkap, advanced |
 
-### 💳 Payment Features
-- QRIS payment support
-- Multiple provider support
-- Auto-expire invoices
-- Callback verification
-- Payment status tracking
-- Secure signature validation
+**Recommended untuk pemula:** `DiscordBotOnly`
 
-## 📁 Project Structure
+---
+
+## 📁 Struktur Project
 
 ```
-auto-store-discord/
-├── shared/                 # Shared libraries
-│   ├── config/            # Configuration management
-│   ├── database/          # Multi-database layer
-│   │   ├── interfaces/    # Repository interfaces
-│   │   ├── mysql/         # MySQL implementation
-│   │   ├── mongodb/       # MongoDB implementation
-│   │   └── provider/      # Database provider (factory)
-│   ├── payment/           # Payment services
-│   ├── logger/            # Logging system
-│   ├── utils/             # Utilities
-│   └── services/          # Business services
-├── bot/                   # Discord bot
-│   ├── core/              # Bot client
-│   ├── commands/          # Slash commands
-│   ├── events/            # Event handlers
-│   ├── handlers/          # Command & event loaders
-│   └── index.js           # Bot entry point
-├── web/                   # Next.js website (planned)
-├── config.json            # Main configuration
-├── .env                   # Environment variables
-├── package.json           # Dependencies
-└── index.js               # Main entry point
+/auto-store-discord
+├── /bot                      # 🤖 Discord Bot (Official v2)
+│   ├── /commands             #   Slash commands
+│   ├── /events               #   Discord events
+│   ├── /handlers             #   Command & event loaders
+│   ├── /core                 #   Extended Discord client
+│   └── index.js              #   Bot entrypoint
+│
+├── /shared                   # 📦 Core Modules (Shared by all apps)
+│   ├── /config               #   ConfigManager
+│   ├── /database             #   Database providers (MySQL, MongoDB)
+│   ├── /payment              #   Payment integrations
+│   ├── /logger               #   Logger utility
+│   ├── /api                  #   API server untuk GUI/Web
+│   └── /services             #   Business logic
+│
+├── /gui                      # 🖥️ Desktop GUI (Electron + HTML)
+│   └── /public               #   Main GUI interface
+│
+├── /web                      # 🌐 Web Dashboard (Next.js)
+│   ├── /app                  #   Next.js 13+ app router
+│   └── /components           #   React components
+│
+├── /scripts                  # 🛠️ CLI Tools
+│   ├── cli.js                #   Interactive CLI menu
+│   ├── test-config.js        #   Config validator
+│   └── test-database.js      #   Database tester
+│
+├── /legacy                   # ⚠️ DEPRECATED - DO NOT USE
+│   └── /v1-bot               #   Old bot code (reference only)
+│
+├── config.example.json       # ✅ Template config
+├── config.json               # ⚙️ Your config (create dari template)
+├── package.json              # 📦 Dependencies & scripts
+│
+├── README.md                 # 📖 This file
+├── KONFIGURASI.md            # 📝 Config field explanations
+├── CARA_SETUP.md             # 🚀 Step-by-step setup guide
+└── FAQ.md                    # ❓ Troubleshooting
 ```
 
-## 🚀 Quick Start
+**⚠️ PENTING:** Folder `/legacy/v1-bot` berisi kode lama yang **TIDAK DIGUNAKAN LAGI**. Jangan gunakan untuk project baru!
 
-### Prerequisites
-- Node.js >= 18.0.0
-- MySQL 8.0+ OR MongoDB 4.4+
-- Discord Bot Token
-- Payment Provider Account (Midtrans/Duitku/Tripay)
+---
 
-### For Windows Users (Desktop App) 🖥️
+## 🚀 Quick Start - Bot Only (Recommended)
 
-1. **Install the project**
+### Persyaratan Sistem
+
+- **Node.js** >= 18.0.0 ([Download](https://nodejs.org/))
+- **Database**: MySQL 8.0+ atau MongoDB 4.4+
+- **Discord Bot**: Token dari [Discord Developer Portal](https://discord.com/developers/applications)
+
+### Langkah Setup (5 Menit)
+
+#### 1️⃣ Clone & Install
+
 ```bash
-git clone <repository-url>
+# Clone repository
+git clone https://github.com/your-repo/auto-store-discord.git
 cd auto-store-discord
+
+# Install dependencies
 npm install
 ```
 
-2. **Install Desktop App dependencies**
+#### 2️⃣ Create Config
+
 ```bash
-cd desktop
-npm install
-cd ..
-```
-
-3. **Start the Desktop App**
-```bash
-cd desktop
-npm start
-```
-
-4. **Configure via Desktop App**
-- Click "Settings" in the sidebar
-- Fill in your Discord bot token, database credentials, payment API keys
-- Test connections using the "Test Connection" buttons
-- Click "Save Configuration"
-
-5. **Start the Bot**
-- Click "Start Bot" button in the sidebar
-- Monitor logs in the "Logs" page
-
-6. **Manage your store**
-- Use "Products" page to add products
-- Use "Stock" page to add stock items
-- Use "Orders" page to view purchases
-- Use "Dashboard" for statistics
-
-### For Ubuntu/Server (Web Dashboard) 🌐
-
-1. **Install the project**
-```bash
-git clone <repository-url>
-cd auto-store-discord
-npm install
-```
-
-2. **Configure the system**
-```bash
-# Copy example config
+# Copy config template
 cp config.example.json config.json
 
-# Edit config.json manually OR use web dashboard
+# Edit config
+nano config.json  # Atau pakai editor favorit (VS Code, Sublime, dll)
 ```
 
-3. **Start the bot** (API server auto-starts)
-```bash
-npm start
+#### 3️⃣ Setup Database (Pilih Salah Satu)
+
+**Option A: MySQL**
+
+```sql
+-- Buat database baru
+CREATE DATABASE autostore;
 ```
 
-4. **Access Web Dashboard**
-```
-Open browser: http://localhost:3000/admin/settings
-```
-
-5. **Configure via Web Dashboard**
-- Edit all settings in the web interface
-- Test database and payment connections
-- Export/import config files
-- Save and restart bot
-
-### Manual Configuration (Advanced)
-
-If you prefer manual configuration:
-
-1. **Copy example files**
-```bash
-cp config.example.json config.json
-```
-
-2. **Edit config.json**
-- See KONFIGURASI.md for detailed explanations
-- All options are documented with examples
-
-4. **Setup database**
-
-For MySQL:
-```bash
-# Import the schema (tables will auto-create)
-# Just make sure your database exists
-mysql -u root -p -e "CREATE DATABASE autostore"
-```
-
-For MongoDB:
-```bash
-# No setup needed, collections auto-create
-```
-
-5. **Run the application**
-
-For IntegratedMode (Bot + Web):
-```bash
-npm start
-```
-
-For Bot Only:
-```bash
-npm run bot
-```
-
-For Web Only:
-```bash
-npm run web
-```
-
-## ⚙️ Configuration
-
-### Mode Selection
-
-Edit `config.json`:
-```json
-{
-  "mode": "IntegratedMode"
-}
-```
-
-Available modes:
-- `DiscordBotOnly` - Only Discord bot runs
-- `WebOnly` - Only website runs
-- `IntegratedMode` - Both bot and website with full integration
-
-### Database Configuration
-
-**MySQL:**
+Config:
 ```json
 {
   "database": {
@@ -258,14 +128,16 @@ Available modes:
       "host": "localhost",
       "port": 3306,
       "user": "root",
-      "password": "your_password",
+      "password": "YOUR_PASSWORD",
       "database": "autostore"
     }
   }
 }
 ```
 
-**MongoDB:**
+**Option B: MongoDB**
+
+Config:
 ```json
 {
   "database": {
@@ -277,159 +149,337 @@ Available modes:
 }
 ```
 
-### Payment Configuration
+#### 4️⃣ Setup Discord Bot
 
-**Midtrans:**
+1. Buka https://discord.com/developers/applications
+2. Create New Application
+3. Menu **Bot** → Reset Token → Copy token
+4. Menu **OAuth2** → Copy Application ID
+5. Invite bot ke server:
+   - OAuth2 → URL Generator
+   - Scopes: `bot` + `applications.commands`
+   - Permissions: `Administrator` (untuk testing)
+   - Copy & buka URL
+
+Config:
 ```json
 {
-  "payment": {
-    "provider": "midtrans",
-    "midtrans": {
-      "serverKey": "your_server_key",
-      "clientKey": "your_client_key",
-      "isProduction": false
-    }
+  "discord": {
+    "token": "PASTE_BOT_TOKEN_DISINI",
+    "clientId": "PASTE_APPLICATION_ID_DISINI",
+    "guildId": "PASTE_SERVER_ID_DISINI",
+    "ownerId": "PASTE_USER_ID_ANDA"
   }
 }
 ```
 
-**Duitku:**
-```json
-{
-  "payment": {
-    "provider": "duitku",
-    "duitku": {
-      "merchantCode": "your_merchant_code",
-      "apiKey": "your_api_key",
-      "callbackUrl": "https://yourdomain.com/api/payment/callback"
-    }
-  }
-}
+**Cara dapat Server ID & User ID:**
+- Settings → Advanced → Developer Mode → ON
+- Right-click server → Copy ID
+- Right-click profile Anda → Copy ID
+
+#### 5️⃣ Validasi & Test
+
+```bash
+# Validate config
+npm run test:config
+
+# Test database connection
+npm run test:database
+
+# Run bot
+npm run bot
 ```
 
-**Tripay:**
-```json
-{
-  "payment": {
-    "provider": "tripay",
-    "tripay": {
-      "merchantCode": "your_merchant_code",
-      "apiKey": "your_api_key",
-      "privateKey": "your_private_key",
-      "callbackUrl": "https://yourdomain.com/api/payment/callback"
-    }
-  }
-}
-```
-
-## 🎮 Discord Bot Commands (COMPLETE)
-
-### User Commands
-- `/balance check` - Check your balance
-- `/shop` - Browse available products with categories
-- `/buy <product_id> [quantity]` - Purchase products with auto-delivery
-- `/deposit <amount>` - Deposit balance via QRIS (with QR code)
-- `/orders [status] [limit]` - View order history with filters
-- `/help` - Show all available commands
-- `/status` - Check bot status, uptime, and stats
-
-### Admin Commands - Product Management
-- `/product add` - Add new product with details
-- `/product edit` - Edit existing product
-- `/product delete` - Delete product
-- `/product list` - List all products with stock count
-
-### Admin Commands - Stock Management
-- `/stock add <product_id> <data>` - Add single stock item
-- `/stock bulk <product_id> <data>` - Bulk add stock (pipe-separated)
-- `/stock view <product_id>` - View product stock items
-- `/stock clear <product_id>` - Clear all available stock
-
-### Admin Commands - Balance
-- `/balance add <user> <amount>` - Add balance to user
-- `/balance remove <user> <amount>` - Remove balance from user
-
-### System Commands (Owner/Admin)
-- `/maintenance on/off/status` - Toggle maintenance mode
-- `/stats [period]` - View system statistics (today/week/month/all)
-  - Shows: users, orders, revenue, deposits, top products
-
-## 🛠️ Architecture
-
-### Adapter Pattern (Database)
-The system uses adapter pattern for database operations:
-```
-Interface → Provider → MySQL/MongoDB Implementation
-```
-
-This allows seamless switching between MySQL and MongoDB without changing application code.
-
-### Strategy Pattern (Payment)
-Payment providers use strategy pattern:
-```
-PaymentManager → Service (Midtrans/Duitku/Tripay)
-```
-
-### Event-Driven (Integration)
-IntegratedMode uses event emitters for bot-website communication:
-```
-Event → GlobalEventEmitter → Listeners (Bot & Web)
-```
-
-## 📊 Logging
-
-Logs are stored in `/logs` directory:
-- `error.log` - Error logs
-- `payment.log` - Payment transactions
-- `system.log` - System operations
-- `admin.log` - Admin actions
-- `orders.log` - Order history
-- `database.log` - Database operations
-
-## 🔒 Security Features
-
-- ✅ Input validation on all user inputs
-- ✅ SQL injection prevention (parameterized queries)
-- ✅ Payment callback signature verification
-- ✅ Admin permission checks
-- ✅ Rate limiting on commands
-- ✅ Secure configuration management
-- ✅ Transaction support for critical operations
-
-## 🚦 Health Check
-
-The system includes health monitoring:
-```javascript
-// Check database health
-await databaseProvider.healthCheck();
-
-// Check bot stats
-const stats = client.getStats();
-```
-
-## 📝 License
-
-MIT License - See LICENSE file for details
-
-## 👥 Support
-
-For issues and questions:
-- GitHub Issues: [repository-url]/issues
-- Documentation: See `/docs` folder
-
-## 🎯 Roadmap
-
-- [x] Core system with multi-database
-- [x] QRIS payment integration
-- [x] Discord bot with slash commands
-- [x] Auto-cancel invoice system
-- [ ] Next.js website
-- [ ] Admin dashboard
-- [ ] User dashboard
-- [ ] Real-time notifications
-- [ ] Analytics & reporting
-- [ ] API documentation
+✅ **Done!** Bot sekarang online dan slash commands otomatis ter-register.
 
 ---
 
-**Built with ❤️ by Auto-Store Team**
+## 💻 Commands Reference
+
+### NPM Scripts
+
+```bash
+# ═══════════════════════════════════════════════
+# DEVELOPMENT
+# ═══════════════════════════════════════════════
+
+npm start              # Start desktop app (Electron)
+npm run dev            # Start desktop app (dev mode)
+
+npm run bot            # Start Discord bot only
+npm run bot:dev        # Start bot with auto-reload
+
+npm run gui            # Start GUI server only
+npm run gui:dev        # Start GUI with auto-reload
+
+npm run web            # Start web dashboard (dev)
+npm run web:build      # Build web for production
+npm run web:start      # Start web (production)
+
+# ═══════════════════════════════════════════════
+# CLI TOOLS
+# ═══════════════════════════════════════════════
+
+npm run cli            # Show CLI help menu
+npm run test:config    # Validate config.json
+npm run test:database  # Test database connection
+npm run health         # Health check (all services)
+npm run init           # Initialize new project
+
+# ═══════════════════════════════════════════════
+# BUILD
+# ═══════════════════════════════════════════════
+
+npm run build          # Build desktop app (current OS)
+npm run build:win      # Build for Windows (.exe)
+npm run build:mac      # Build for macOS (.dmg)
+npm run build:linux    # Build for Linux (AppImage)
+
+# ═══════════════════════════════════════════════
+# MAINTENANCE
+# ═══════════════════════════════════════════════
+
+npm run install:all    # Install all dependencies (root + web)
+```
+
+---
+
+## ⚙️ Mode Operasi Lengkap
+
+### 1. Discord Bot Only (Recommended)
+
+**Kelebihan:**
+- Setup paling mudah
+- Resource minimal (RAM & CPU rendah)
+- Cocok untuk pemula
+
+**Yang Diperlukan:**
+- Discord bot token ✅
+- Database (MySQL/MongoDB) ✅
+- Payment provider (opsional)
+
+**Cara Jalankan:**
+```json
+{
+  "mode": "DiscordBotOnly"
+}
+```
+
+```bash
+npm run bot
+```
+
+---
+
+### 2. Desktop App (Electron GUI)
+
+**Kelebihan:**
+- GUI untuk manage config
+- Monitor logs real-time
+- All-in-one application
+
+**Cara Jalankan:**
+```bash
+npm start
+```
+
+**Atau build installer:**
+```bash
+npm run build:win    # Windows installer
+npm run build:mac    # macOS installer
+npm run build:linux  # Linux AppImage
+```
+
+**File installer ada di:** `dist/`
+
+---
+
+### 3. Integrated Mode (Bot + Web)
+
+**Kelebihan:**
+- Fitur lengkap (bot + web dashboard)
+- Sinkronisasi data real-time
+- Manage via Discord atau web
+
+**Yang Diperlukan:**
+- Semua requirements dari mode lain
+- Website config (JWT secret, admin password)
+- OAuth config (untuk login Discord)
+
+**Config:**
+```json
+{
+  "mode": "IntegratedMode",
+  "website": {
+    "url": "http://localhost:3000",
+    "port": 3000,
+    "jwtSecret": "RANDOM_STRING_MIN_32_CHARS",
+    "adminSecretKey": "STRONG_ADMIN_PASSWORD"
+  },
+  "oauth": {
+    "clientId": "SAME_AS_discord.clientId",
+    "clientSecret": "FROM_DISCORD_DEVELOPER_PORTAL",
+    "redirectUri": "http://localhost:3000/api/auth/callback"
+  }
+}
+```
+
+```bash
+npm start
+# Atau
+npm run gui
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### ❌ Error "config.json not found"
+
+```bash
+cp config.example.json config.json
+```
+
+### ❌ MySQL connection failed
+
+1. Check MySQL service running
+2. Check username/password di config
+3. Create database: `CREATE DATABASE autostore;`
+
+### ❌ Slash commands tidak muncul
+
+1. Restart bot (commands auto-register)
+2. Pastikan bot punya permissions `applications.commands`
+3. Check `guildId` benar
+
+### ❌ Bot crash / tidak stabil
+
+Gunakan PM2:
+```bash
+npm install -g pm2
+pm2 start bot/index.js --name "autostore-bot"
+pm2 monit
+```
+
+**Troubleshooting lengkap:** Baca [FAQ.md](FAQ.md)
+
+---
+
+## 📚 Dokumentasi Lengkap
+
+| File | Deskripsi |
+|------|-----------|
+| **README.md** | Overview & Quick Start (file ini) |
+| **[KONFIGURASI.md](KONFIGURASI.md)** | Penjelasan lengkap setiap field config.json |
+| **[CARA_SETUP.md](CARA_SETUP.md)** | Step-by-step setup Discord bot, database, payment |
+| **[FAQ.md](FAQ.md)** | Troubleshooting & common errors |
+| **[legacy/README-LEGACY.md](legacy/README-LEGACY.md)** | Penjelasan folder legacy (deprecated) |
+
+---
+
+## 🛠️ Development
+
+### Project Structure Philosophy
+
+- **`/bot`** - Discord bot (slash commands, events, handlers)
+- **`/shared`** - Core modules shared by all apps (config, database, payment, logger)
+- **`/gui`** - Simple Electron GUI (HTML + CSS + JS, no frameworks)
+- **`/web`** - Advanced web dashboard (Next.js + React + TypeScript)
+- **`/scripts`** - CLI tools untuk testing & maintenance
+- **`/legacy`** - Old code (deprecated, for reference only)
+
+### Configuration Philosophy
+
+**ONE config file to rule them all:** `config.json`
+
+- Single source of truth untuk semua mode
+- Validated on startup dengan friendly error messages
+- Template tersedia di `config.example.json`
+
+### Code Style
+
+- Bahasa Indonesia untuk user-facing messages (logs, errors, docs)
+- English untuk code comments & internal functions
+- Friendly error messages dengan solusi konkret
+- No magic numbers - semua values ada di config
+
+---
+
+## 🚢 Deployment
+
+### VPS / Cloud Server
+
+```bash
+# 1. Clone & install
+git clone <repo-url>
+cd auto-store-discord
+npm install
+
+# 2. Setup config
+cp config.example.json config.json
+nano config.json
+
+# 3. Run with PM2
+npm install -g pm2
+pm2 start bot/index.js --name "autostore-bot"
+pm2 startup
+pm2 save
+
+# 4. Monitor
+pm2 monit
+pm2 logs
+```
+
+### Docker (Coming Soon)
+
+```bash
+docker-compose up -d
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+---
+
+## 📄 License
+
+MIT License - lihat [LICENSE](LICENSE) untuk detail.
+
+---
+
+## 📞 Support
+
+- **GitHub Issues:** [Report Bug](https://github.com/your-repo/auto-store-discord/issues)
+- **Dokumentasi:** Baca file `.md` di root project
+- **CLI Help:** `npm run cli`
+
+---
+
+## 🎉 Credits
+
+Developed with ❤️ by Auto-Store Team
+
+**Tech Stack:**
+- Discord.js v14
+- Electron 28
+- Next.js 14
+- Express
+- MySQL2 / Mongoose
+- Midtrans / Duitku / Tripay
+
+---
+
+**Terakhir diupdate:** 2025-11-15
+**Versi:** 2.0.0
+
+**Happy coding! 🚀**

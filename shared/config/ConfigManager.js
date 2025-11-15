@@ -154,73 +154,143 @@ class ConfigManager {
   }
 
   /**
-   * Validate configuration completeness
+   * Validate configuration completeness with friendly Indonesian error messages
    */
   validate() {
     const config = this.getConfig();
     const errors = [];
+    const warnings = [];
 
     // Validate database config
     if (!config.database || !config.database.type) {
-      errors.push('Database type not specified');
-    }
-
-    if (config.database.type === 'mysql') {
-      const mysql = config.database.mysql;
-      if (!mysql.host || !mysql.user || !mysql.database) {
-        errors.push('MySQL configuration incomplete');
+      errors.push('❌ database.type belum dipilih!\n   Pilihan: "mysql" atau "mongodb"\n   Cara: Edit config.json → database.type');
+    } else {
+      // Validate MySQL config
+      if (config.database.type === 'mysql') {
+        const mysql = config.database.mysql;
+        if (!mysql) {
+          errors.push('❌ database.mysql section tidak ditemukan!\n   Cara: Lihat config.example.json untuk template MySQL');
+        } else {
+          if (!mysql.host) {
+            errors.push('❌ database.mysql.host belum diisi!\n   Default: "localhost" (untuk MySQL lokal)');
+          }
+          if (!mysql.user) {
+            errors.push('❌ database.mysql.user belum diisi!\n   Default: "root" (untuk development)');
+          }
+          if (!mysql.password || mysql.password.includes('ISI_PASSWORD')) {
+            warnings.push('⚠️  database.mysql.password belum diisi atau masih default\n   Ini bisa menyebabkan gagal koneksi ke database');
+          }
+          if (!mysql.database) {
+            errors.push('❌ database.mysql.database belum diisi!\n   Contoh: "autostore"');
+          }
+        }
       }
-    }
 
-    if (config.database.type === 'mongodb') {
-      if (!config.database.mongodb?.uri) {
-        errors.push('MongoDB URI not specified');
+      // Validate MongoDB config
+      if (config.database.type === 'mongodb') {
+        if (!config.database.mongodb?.uri) {
+          errors.push('❌ database.mongodb.uri belum diisi!\n   Format: mongodb://localhost:27017/autostore (local)\n   Atau: mongodb+srv://user:pass@cluster.mongodb.net/db (Atlas)');
+        }
       }
     }
 
     // Validate Discord config (if bot enabled)
     if (this.isBotEnabled()) {
-      if (!config.discord?.token) {
-        errors.push('Discord bot token not specified');
-      }
-      if (!config.discord?.clientId) {
-        errors.push('Discord client ID not specified');
+      if (!config.discord) {
+        errors.push('❌ discord section tidak ditemukan!\n   Cara: Lihat config.example.json untuk template Discord');
+      } else {
+        if (!config.discord.token || config.discord.token.includes('PASTE_')) {
+          errors.push('❌ discord.token belum diisi!\n   Cara: Baca CARA_SETUP.md bagian "Mendapatkan Bot Token"\n   Portal: https://discord.com/developers/applications');
+        }
+        if (!config.discord.clientId || config.discord.clientId.includes('PASTE_')) {
+          errors.push('❌ discord.clientId belum diisi!\n   Cara: Discord Developer Portal → OAuth2 → Client ID\n   Baca CARA_SETUP.md untuk panduan lengkap');
+        }
+        if (!config.discord.guildId || config.discord.guildId.includes('PASTE_')) {
+          errors.push('❌ discord.guildId belum diisi!\n   Cara: Right-click server Discord → Copy ID\n   (Aktifkan Developer Mode di User Settings → Advanced)');
+        }
+        if (!config.discord.ownerId || config.discord.ownerId.includes('PASTE_')) {
+          warnings.push('⚠️  discord.ownerId belum diisi\n   Beberapa admin command tidak akan bisa digunakan\n   Cara: Right-click profile Anda → Copy ID');
+        }
       }
     }
 
     // Validate website config (if web enabled)
     if (this.isWebEnabled()) {
-      if (!config.website?.jwtSecret || config.website.jwtSecret === 'CHANGE_THIS_TO_RANDOM_SECRET') {
-        errors.push('Website JWT secret not properly configured');
-      }
-      if (!config.website?.adminSecretKey || config.website.adminSecretKey === 'CHANGE_THIS_ADMIN_SECRET') {
-        errors.push('Admin secret key not properly configured');
+      if (!config.website) {
+        warnings.push('⚠️  website section tidak ditemukan\n   Web dashboard mungkin tidak berfungsi dengan baik');
+      } else {
+        if (!config.website.jwtSecret || config.website.jwtSecret.includes('GANTI_')) {
+          warnings.push('⚠️  website.jwtSecret belum diisi atau masih default!\n   Ini TIDAK AMAN untuk production\n   Cara: Ganti dengan random string minimal 32 karakter');
+        }
+        if (!config.website.adminSecretKey || config.website.adminSecretKey.includes('PASSWORD_')) {
+          warnings.push('⚠️  website.adminSecretKey belum diisi atau masih default!\n   Admin login tidak aman!\n   Cara: Ganti dengan password yang kuat');
+        }
       }
     }
 
-    // Validate payment config
+    // Validate payment config (optional but warn if misconfigured)
     const paymentProvider = config.payment?.provider;
     if (!paymentProvider) {
-      errors.push('Payment provider not specified');
-    } else {
-      if (paymentProvider === 'midtrans' && !config.payment.midtrans?.serverKey) {
-        errors.push('Midtrans server key not configured');
-      }
-      if (paymentProvider === 'duitku' && !config.payment.duitku?.apiKey) {
-        errors.push('Duitku API key not configured');
-      }
-      if (paymentProvider === 'tripay' && !config.payment.tripay?.apiKey) {
-        errors.push('Tripay API key not configured');
+      warnings.push('⚠️  payment.provider belum dipilih\n   Payment gateway tidak akan berfungsi\n   Pilihan: "midtrans", "duitku", "tripay", "manual"');
+    } else if (paymentProvider !== 'manual') {
+      const providerConfig = config.payment[paymentProvider];
+      if (!providerConfig) {
+        warnings.push(`⚠️  payment.${paymentProvider} section tidak ditemukan\n   Payment tidak akan berfungsi`);
+      } else {
+        // Check API keys based on provider
+        if (paymentProvider === 'midtrans') {
+          if (!providerConfig.serverKey || providerConfig.serverKey.includes('PASTE_')) {
+            warnings.push('⚠️  payment.midtrans.serverKey belum diisi\n   Daftar di https://midtrans.com untuk mendapatkan API key');
+          }
+        }
+        if (paymentProvider === 'duitku') {
+          if (!providerConfig.apiKey || providerConfig.apiKey.includes('PASTE_')) {
+            warnings.push('⚠️  payment.duitku.apiKey belum diisi\n   Daftar di https://duitku.com untuk mendapatkan API key');
+          }
+        }
+        if (paymentProvider === 'tripay') {
+          if (!providerConfig.apiKey || providerConfig.apiKey.includes('PASTE_')) {
+            warnings.push('⚠️  payment.tripay.apiKey belum diisi\n   Daftar di https://tripay.co.id untuk mendapatkan API key');
+          }
+        }
       }
     }
 
+    // Print validation results
     if (errors.length > 0) {
-      console.warn('[ConfigManager] Configuration warnings:');
-      errors.forEach(err => console.warn(`  - ${err}`));
-      return false;
+      console.error('\n╔════════════════════════════════════════════════════════╗');
+      console.error('║        KONFIGURASI ERROR - HARUS DIPERBAIKI!           ║');
+      console.error('╚════════════════════════════════════════════════════════╝\n');
+
+      errors.forEach((err, i) => {
+        console.error(`${i + 1}. ${err}\n`);
+      });
+
+      console.error('📚 Dokumentasi:');
+      console.error('   - Baca KONFIGURASI.md untuk penjelasan setiap field');
+      console.error('   - Baca CARA_SETUP.md untuk panduan setup lengkap');
+      console.error('   - Jalankan: npm run test:config untuk validasi\n');
+
+      throw new Error('Configuration validation failed. Please fix the errors above.');
     }
 
-    console.log('[ConfigManager] Configuration validated successfully');
+    if (warnings.length > 0) {
+      console.warn('\n╔════════════════════════════════════════════════════════╗');
+      console.warn('║      KONFIGURASI WARNING - SEBAIKNYA DIPERBAIKI        ║');
+      console.warn('╚════════════════════════════════════════════════════════╝\n');
+
+      warnings.forEach((warn, i) => {
+        console.warn(`${i + 1}. ${warn}\n`);
+      });
+
+      console.warn('ℹ️  Warning ini tidak akan menghentikan aplikasi,');
+      console.warn('   tapi sebaiknya diperbaiki untuk keamanan dan fungsionalitas penuh.\n');
+    }
+
+    if (errors.length === 0 && warnings.length === 0) {
+      console.log('\n✅ Konfigurasi valid! Aplikasi siap dijalankan.\n');
+    }
+
     return true;
   }
 }
