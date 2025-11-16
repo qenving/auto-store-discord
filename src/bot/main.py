@@ -46,10 +46,21 @@ class AutoStoreBot(commands.Bot):
         """Called when bot is starting - Load extensions here"""
         logger.info("Running setup hook...")
 
-        # TODO: Load command cogs
-        # await self.load_extension("src.bot.cogs.user")
-        # await self.load_extension("src.bot.cogs.admin")
-        # await self.load_extension("src.bot.cogs.store")
+        # Load command cogs
+        cogs = [
+            "src.bot.cogs.help",
+            "src.bot.cogs.user",
+            "src.bot.cogs.shop",
+            "src.bot.cogs.orders",
+            "src.bot.cogs.admin",
+        ]
+
+        for cog in cogs:
+            try:
+                await self.load_extension(cog)
+                logger.success(f"Loaded cog: {cog}")
+            except Exception as e:
+                logger.error(f"Failed to load cog {cog}: {e}")
 
         # Sync slash commands
         guild = discord.Object(id=int(self.settings.discord.guild_id))

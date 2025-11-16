@@ -72,10 +72,13 @@ async def health_check():
     }
 
 
-# TODO: Import and include routers
-# from .routers import users, products, orders
-# app.include_router(users.router, prefix="/api/users", tags=["users"])
-# app.include_router(products.router, prefix="/api/products", tags=["products"])
+# Import and include routers
+from src.api.routers import users_router, products_router, orders_router, payments_router
+
+app.include_router(users_router, prefix="/api/users", tags=["users"])
+app.include_router(products_router, prefix="/api/products", tags=["products"])
+app.include_router(orders_router, prefix="/api/orders", tags=["orders"])
+app.include_router(payments_router, prefix="/api/payments", tags=["payments"])
 
 
 if __name__ == "__main__":
