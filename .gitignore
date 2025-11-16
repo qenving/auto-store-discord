@@ -82,3 +82,7 @@ pids/
 # Backup
 *.bak
 *.backup
+
+# JSON Database Storage
+data/
+*.json.backup

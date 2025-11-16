@@ -24,6 +24,7 @@ class DatabaseType(str, Enum):
 
     MYSQL = "mysql"
     MONGODB = "mongodb"
+    LOCAL_JSON = "local_json"
 
 
 class PaymentProvider(str, Enum):
@@ -134,12 +135,29 @@ class MongoDBConfig(BaseModel):
         return v
 
 
+class LocalJSONConfig(BaseModel):
+    """Local JSON database configuration"""
+
+    path: str = Field(default="data", description="Directory untuk menyimpan file JSON")
+
+    @field_validator("path")
+    @classmethod
+    def validate_path(cls, v: str) -> str:
+        if not v:
+            raise ValueError(
+                "❌ database.local_json.path tidak boleh kosong!\n"
+                "   Gunakan: 'data' atau path lain untuk menyimpan file JSON"
+            )
+        return v
+
+
 class DatabaseConfig(BaseModel):
     """Database configuration"""
 
     type: DatabaseType = Field(..., description="Database type")
     mysql: Optional[MySQLConfig] = None
     mongodb: Optional[MongoDBConfig] = None
+    local_json: Optional[LocalJSONConfig] = Field(None, alias="localJson")
 
     @field_validator("mysql")
     @classmethod
@@ -162,6 +180,18 @@ class DatabaseConfig(BaseModel):
                 "   Cara: Lihat config.example.json untuk template MongoDB"
             )
         return v
+
+    @field_validator("local_json")
+    @classmethod
+    def validate_local_json(cls, v: Optional[LocalJSONConfig], info) -> Optional[LocalJSONConfig]:
+        db_type = info.data.get("type")
+        if db_type == DatabaseType.LOCAL_JSON:
+            # Auto-create dengan default jika tidak ada
+            if v is None:
+                return LocalJSONConfig()
+        return v
+
+    model_config = SettingsConfigDict(populate_by_name=True)
 
 
 # ═══════════════════════════════════════════════════════════

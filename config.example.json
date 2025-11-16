@@ -16,11 +16,17 @@
   "_comment_database_2": "║   DATABASE (PILIH SALAH SATU)          ║",
   "_comment_database_3": "╚════════════════════════════════════════╝",
   "_PILIHAN_DATABASE": {
-    "mysql": "✅ RECOMMENDED - MySQL/MariaDB (lebih familiar, banyak tutorial)",
-    "mongodb": "MongoDB (NoSQL, lebih flexible untuk data besar)"
+    "mysql": "MySQL/MariaDB (lebih familiar, banyak tutorial)",
+    "mongodb": "MongoDB (NoSQL, lebih flexible untuk data besar)",
+    "local_json": "✅ EASIEST - JSON Files (tidak perlu install database, cocok untuk pemula & testing)"
   },
   "database": {
-    "type": "mysql",
+    "type": "local_json",
+
+    "_keterangan_local_json": "✅ ISI BAGIAN INI JIKA ANDA PAKAI LOCAL JSON (DEFAULT & EASIEST)",
+    "localJson": {
+      "path": "data"
+    },
 
     "_keterangan_mysql": "ISI BAGIAN INI JIKA ANDA PAKAI MYSQL",
     "mysql": {

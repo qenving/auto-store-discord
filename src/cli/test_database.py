@@ -78,6 +78,43 @@ async def test_mongodb():
         return False
 
 
+async def test_json():
+    """Test JSON Storage"""
+    try:
+        from src.core.database import json_storage
+
+        if json_storage is None:
+            logger.warning("⚠️  JSON Storage not configured")
+            return True
+
+        # Test basic operations
+        logger.success("✅ JSON Storage initialized!")
+        logger.info(f"   • Storage path: {json_storage.data_dir.absolute()}")
+
+        # Count existing data
+        user_count = await json_storage.count("users")
+        product_count = await json_storage.count("products")
+        order_count = await json_storage.count("orders")
+
+        logger.info(f"   • Users: {user_count}")
+        logger.info(f"   • Products: {product_count}")
+        logger.info(f"   • Orders: {order_count}")
+
+        # Test write operation
+        test_data = {"test": "value", "timestamp": "test"}
+        await json_storage.insert("_test", test_data)
+        await json_storage.delete("_test", lambda x: x.get("test") == "value")
+
+        logger.success("✅ JSON Storage read/write test passed!")
+
+        return True
+
+    except Exception as e:
+        logger.error("❌ JSON Storage test failed!")
+        logger.error(f"   Error: {str(e)}")
+        return False
+
+
 async def main_async():
     """Main async function"""
     logger.info("=" * 60)
@@ -95,6 +132,8 @@ async def main_async():
         success = await test_mysql()
     elif settings.database.type.value == "mongodb":
         success = await test_mongodb()
+    elif settings.database.type.value == "local_json":
+        success = await test_json()
     else:
         logger.error(f"Unknown database type: {settings.database.type.value}")
         success = False

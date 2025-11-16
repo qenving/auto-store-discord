@@ -6,6 +6,7 @@ from typing import AsyncGenerator
 from loguru import logger
 
 from src.core.config import get_settings
+from src.core.database.json_storage import JSONStorage, get_json_storage
 
 
 # ═══════════════════════════════════════════════════════════
@@ -54,12 +55,32 @@ else:
 
 
 # ═══════════════════════════════════════════════════════════
+# Local JSON Storage Setup
+# ═══════════════════════════════════════════════════════════
+
+if db_config.type.value == "local_json":
+    json_storage_path = db_config.local_json.path if db_config.local_json else "data"
+    json_storage = get_json_storage(json_storage_path)
+
+    logger.success(f"JSON Storage initialized at: {json_storage_path}")
+else:
+    json_storage = None
+
+
+# ═══════════════════════════════════════════════════════════
 # Dependency for FastAPI
 # ═══════════════════════════════════════════════════════════
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """Dependency for FastAPI routes - provides async DB session"""
     if AsyncSessionLocal is None:
+        # Check if JSON storage is available
+        if json_storage is not None:
+            # For JSON storage, we don't use SQLAlchemy session
+            # Services will detect and use JSON storage instead
+            yield None
+            return
+
         raise RuntimeError("Database not configured for MySQL")
 
     async with AsyncSessionLocal() as session:
@@ -80,4 +101,24 @@ async def get_mongo() -> AsyncGenerator:
         pass  # Motor handles connection pooling automatically
 
 
-__all__ = ["engine", "AsyncSessionLocal", "mongo_client", "mongo_db", "get_db", "get_mongo"]
+async def get_json() -> AsyncGenerator[JSONStorage, None]:
+    """Dependency for FastAPI routes - provides JSON storage"""
+    if json_storage is None:
+        raise RuntimeError("Database not configured for JSON")
+
+    try:
+        yield json_storage
+    finally:
+        pass  # No cleanup needed for JSON storage
+
+
+__all__ = [
+    "engine",
+    "AsyncSessionLocal",
+    "mongo_client",
+    "mongo_db",
+    "json_storage",
+    "get_db",
+    "get_mongo",
+    "get_json",
+]
