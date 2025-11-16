@@ -1,5 +1,7 @@
 # 🤖 Auto-Store Ecosystem
 
+> **🐍 PYTHON VERSION AVAILABLE!** This project has been fully converted to Python 3.11+ with modern tech stack (discord.py, FastAPI, SQLAlchemy, Pydantic). See **[PYTHON_CONVERSION.md](PYTHON_CONVERSION.md)** and **[README.Python.md](README.Python.md)** for the Python version.
+
 **Auto-Store Ecosystem** adalah sistem manajemen toko otomatis Discord dengan fitur lengkap untuk mengelola produk digital, order, pembayaran, dan stock management. Dirancang untuk **mudah digunakan** bahkan untuk pemula.
 
 ---
